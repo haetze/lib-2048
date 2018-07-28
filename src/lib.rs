@@ -272,18 +272,31 @@ mod tests {
 mod data {
     use std::mem::swap;
 
+    // Holds one row of Numbers or None if the specific field in the vec is empty
     #[derive(Debug, PartialEq)]
     pub struct Row {
         pub row: Vec<Option<usize>>,
         pub length: usize,
     }
 
+    // Holds the whole field 
     #[derive(Debug, PartialEq)]
     pub struct Field {
         pub rows: Vec<Row>,
         pub size: usize,
     }
 
+    // Implementation of
+    // - push_up DONE
+    // - push_up_single DONE
+    // - push_down DONE
+    // - push_down_single DONE
+    // - swipe_up TODO
+    // - swipe_up_single TODO
+    // - swipe_down TODO
+    // - swipe_down_single TODO
+    // - swipe_left DONE
+    // - swipe_right DONE
     impl Field {
         pub fn new(size: usize) -> Field {
             let mut field = Vec::with_capacity(size);
@@ -311,7 +324,7 @@ mod data {
             
         }
 
-        pub fn push_up_single(&mut self, i: usize) {
+        fn push_up_single(&mut self, i: usize) {
             let mut collected = Vec::with_capacity(self.size);
             for j in 0 .. self.size {
                 let mut tmp = None;
@@ -331,7 +344,7 @@ mod data {
             }
         }
 
-        pub fn push_down_single(&mut self, i: usize) {
+        fn push_down_single(&mut self, i: usize) {
             let mut collected = Vec::with_capacity(self.size);
             for j in 0 .. self.size {
                 let index = self.size - 1 - j;
@@ -355,6 +368,14 @@ mod data {
 
     }
 
+    // Implementation of
+    // - new DONE
+    // - insertable DONE
+    // - insert_random DONE
+    // - push_left DONE
+    // - push_right DONE
+    // - swipe_right DONE
+    // - swipe_left DONE
     impl Row {
         pub fn new(length: usize) -> Row {
             let mut row = Vec::with_capacity(length);
