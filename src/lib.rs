@@ -60,6 +60,18 @@ mod tests {
         };
         row_1.swipe_right();
         assert_eq!(row_1.row, row_2.row);
+
+        let mut row_1 = Row {
+            row: vec![Some(2), Some(2), Some(2), Some(1)],
+            length: 4,
+        };
+        let row_2 = Row {
+            row: vec![None, Some(2), Some(4), Some(1)],
+            length: 4,
+        };
+        row_1.swipe_right();
+        assert_eq!(row_1.row, row_2.row);
+
     }
 
     
@@ -105,6 +117,18 @@ mod tests {
         };
         row_1.swipe_left();
         assert_eq!(row_1.row, row_2.row);
+
+        let mut row_1 = Row {
+            row: vec![Some(1), Some(2), Some(2), Some(2)],
+            length: 4,
+        };
+        let row_2 = Row {
+            row: vec![Some(1), Some(4), Some(2), None],
+            length: 4,
+        };
+        row_1.swipe_left();
+        assert_eq!(row_1.row, row_2.row);
+
     }
 
 }
