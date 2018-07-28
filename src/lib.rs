@@ -297,6 +297,7 @@ mod data {
     // - swipe_down_single TODO
     // - swipe_left DONE
     // - swipe_right DONE
+    // - insert_random TODO
     impl Field {
         pub fn new(size: usize) -> Field {
             let mut field = Vec::with_capacity(size);
