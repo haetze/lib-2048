@@ -1,5 +1,24 @@
 #[cfg(test)]
 mod tests {
+
+    #[test]
+    fn insertable() {
+        use data::Row;
+        let mut row_1 = Row {
+            row: vec![None, Some(1), None, Some(2)],
+            length: 4,
+        };
+        assert_eq!(row_1.insertable(), true);
+
+        let mut row_1 = Row {
+            row: vec![Some(1), Some(1), Some(1), Some(2)],
+            length: 4,
+        };
+        assert_eq!(row_1.insertable(), false);
+
+    }
+        
+    
     #[test]
     fn push_right() {
         use data::Row;
@@ -109,6 +128,15 @@ mod data {
                 row: row,
                 length: length,
             }
+        }
+
+        pub fn insertable(&self) -> bool {
+            for i in &self.row {
+                if let None = i {
+                    return true;
+                }
+            }
+            return false;
         }
 
         pub fn push_right(&mut self) {
