@@ -1,3 +1,6 @@
+#![feature(extern_prelude)]
+extern crate rand;
+
 #[cfg(test)]
 mod tests {
 
@@ -163,6 +166,33 @@ mod data {
             return false;
         }
 
+        pub fn insert_random(&mut self) -> bool {
+            if self.insertable() {
+                loop {
+                    let random: usize = rand::random();
+                    let index: usize = random % self.length;
+                    let value;
+                    if rand::random() {
+                        value = 2;
+                    } else {
+                        value = 1;
+                    }
+                    match self.row[index] {
+                        None => {
+                            self.row[index] = Some(value);
+                            break;
+                        },
+                        Some(_) => {
+                            continue;
+                        }
+                    }
+                }
+                    
+                return true;
+            }
+            return false;
+        }
+
         pub fn push_right(&mut self) {
             let mut vec = Vec::new();
             let mut v_2   = Vec::new();
@@ -242,11 +272,7 @@ mod data {
 
             self.push_left();
         }
-
-        
-
-
-        
+ 
     }
 
 }
