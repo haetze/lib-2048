@@ -262,7 +262,160 @@ mod tests {
 
         field_1.push_down();
         assert_eq!(field_1, field_2);
+    }
+
+    #[test]
+    fn swipe_up() {
+        use data::Row;
+        use data::Field;
+
+        let mut row_1_1 = Row {
+            row: vec![Some(2), Some(2), Some(2), Some(2)],
+            length: 4,
+        };
+
+        let mut row_1_2 = Row {
+            row: vec![None, None, None, None],
+            length: 4,
+        };
+
+        let mut row_1_3 = Row {
+            row: vec![Some(2), Some(2), Some(2), Some(2)],
+            length: 4,
+        };
+
+        let mut row_1_4 = Row {
+            row: vec![None, None, None, None],
+            length: 4,
+        };
+
+        let mut row_2_1 = Row {
+            row: vec![Some(4), Some(4), Some(4), Some(4)],
+            length: 4,
+        };
+
+        let mut row_2_2 = Row {
+            row: vec![None, None, None, None],
+            length: 4,
+        };
+
+        let mut row_2_3 = Row {
+            row: vec![None, None, None, None],
+            length: 4,
+        };
+
+        let mut row_2_4 = Row {
+            row: vec![None, None, None, None],
+            length: 4,
+        };
+    
+
+        let mut field_1 = Field {
+            rows: vec![row_1_1,
+                       row_1_2,
+                       row_1_3,
+                       row_1_4],
+            size: 4,
+        };
+        let mut field_2 = Field {
+            rows: vec![row_2_1,
+                       row_2_2,
+                       row_2_3,
+                       row_2_4],
+            size: 4,
+        };
+
+        field_1.swipe_up();
+        assert_eq!(field_1, field_2);
     }        
+
+    #[test]
+    fn swipe_down() {
+        use data::Row;
+        use data::Field;
+
+        let mut row_1_1 = Row {
+            row: vec![Some(2), Some(2), Some(2), Some(2)],
+            length: 4,
+        };
+
+        let mut row_1_2 = Row {
+            row: vec![None, None, None, None],
+            length: 4,
+        };
+
+        let mut row_1_3 = Row {
+            row: vec![Some(2), Some(2), Some(2), Some(2)],
+            length: 4,
+        };
+
+        let mut row_1_4 = Row {
+            row: vec![None, None, None, None],
+            length: 4,
+        };
+
+        let mut row_2_1 = Row {
+            row: vec![Some(4), Some(4), Some(4), Some(4)],
+            length: 4,
+        };
+
+        let mut row_2_2 = Row {
+            row: vec![None, None, None, None],
+            length: 4,
+        };
+
+        let mut row_2_3 = Row {
+            row: vec![None, None, None, None],
+            length: 4,
+        };
+
+        let mut row_2_4 = Row {
+            row: vec![None, None, None, None],
+            length: 4,
+        };
+    
+
+        let mut field_1 = Field {
+            rows: vec![row_1_1,
+                       row_1_2,
+                       row_1_3,
+                       row_1_4],
+            size: 4,
+        };
+        let mut field_2 = Field {
+            rows: vec![row_2_3,
+                       row_2_4,
+                       row_2_2,
+                       row_2_1],
+            size: 4,
+        };
+
+        field_1.swipe_down();
+        assert_eq!(field_1, field_2);
+    }
+
+    #[test]
+    fn insert(){
+        use data::Field;
+        
+        let mut field = Field::new(4);
+        field.print();
+        field.insert_random();
+        field.print();
+        field.insert_random();
+        field.print();
+        field.insert_random();
+        field.print();
+        field.insert_random();
+        field.print();
+        field.insert_random();
+        field.print();
+        field.insert_random();
+        field.print();
+        field.insert_random();
+        field.print();
+        field.insert_random();
+    }
 
 
     
@@ -291,14 +444,21 @@ mod data {
     // - push_up_single DONE
     // - push_down DONE
     // - push_down_single DONE
-    // - swipe_up TODO
-    // - swipe_up_single TODO
-    // - swipe_down TODO
+    // - swipe_up DONE
+    // - swipe_up_single DONE
+    // - swipe_down DONE
     // - swipe_down_single TODO
     // - swipe_left DONE
     // - swipe_right DONE
-    // - insert_random TODO
+    // - insert_random DONE
+    // - print DONE
     impl Field {
+        pub fn print(&self) {
+            for r in &self.rows{
+                r.print();
+            }
+        }
+            
         pub fn new(size: usize) -> Field {
             let mut field = Vec::with_capacity(size);
             for _ in 0 .. size {
@@ -309,6 +469,30 @@ mod data {
                 size: size,
             }
 
+        }
+
+        pub fn insertable(&self) -> bool {
+            for r in &self.rows {
+                if r.insertable() {
+                    return true;
+                }
+            }
+            return false;
+        }
+        
+        pub fn insert_random(&mut self) -> bool {
+            if self.insertable() {
+                loop {
+                    let rand: usize = rand::random();
+                    let row_number = rand % self.size;
+                    if self.rows[row_number].insertable() {
+                        self.rows[row_number].insert_random();
+                        break;
+                    }       
+                }
+                return true;
+            }
+            return false;
         }
 
         pub fn swipe_left(&mut self) {
@@ -325,6 +509,55 @@ mod data {
             
         }
 
+        fn swipe_up_single(&mut self, i: usize) {
+            self.push_up_single(i);
+            for j in 0 .. self.size - 1 {
+                if self.rows[j].row[i] == self.rows[j+1].row[i] {
+                    match self.rows[j].row[i] {
+                        Some(a) => {
+                            self.rows[j].row[i] = Some(2 * a);
+                            self.rows[j+1].row[i] = None;
+                        },
+                        None => {},
+                    }
+                            
+                }
+            }
+            self.push_up_single(i);
+                    
+        }
+
+        pub fn swipe_up(&mut self) {
+            for i in 0..self.size {
+                self.swipe_up_single(i);
+            }
+        }
+
+        fn swipe_down_single(&mut self, i: usize) {
+            self.push_down_single(i);
+            for j in 0 .. self.size - 1 {
+                let index = self.size - 1 - j;
+                if self.rows[index].row[i] == self.rows[index - 1].row[i] {
+                    match self.rows[index].row[i] {
+                        Some(a) => {
+                            self.rows[index].row[i] = Some(2 * a);
+                            self.rows[index - 1].row[i] = None;
+                        },
+                        None => {},
+                    }
+                            
+                }
+            }
+            self.push_down_single(i);
+                    
+        }
+
+        pub fn swipe_down(&mut self) {
+            for i in 0..self.size {
+                self.swipe_down_single(i);
+            }
+        }
+        
         fn push_up_single(&mut self, i: usize) {
             let mut collected = Vec::with_capacity(self.size);
             for j in 0 .. self.size {
@@ -377,7 +610,13 @@ mod data {
     // - push_right DONE
     // - swipe_right DONE
     // - swipe_left DONE
+    // - print DONE
     impl Row {
+
+        pub fn print(&self) {
+            println!("{:?}", self.row);
+        }
+        
         pub fn new(length: usize) -> Row {
             let mut row = Vec::with_capacity(length);
             for _ in 0..length {
