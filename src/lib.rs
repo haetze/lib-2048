@@ -3,5 +3,5 @@ extern crate rand;
 
 mod tests;
 
-mod data;
+pub mod data;
 
