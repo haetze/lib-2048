@@ -2,14 +2,14 @@
 use std::mem::swap;
 
 // Holds one row of Numbers or None if the specific field in the vec is empty
-#[derive(Copy, Clone, Debug, PartialEq)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct Row {
     pub row: Vec<Option<usize>>,
     pub length: usize,
 }
 
 // Holds the whole field 
-#[derive(Copy, Clone, Debug, PartialEq)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct Field {
     pub rows: Vec<Row>,
     pub size: usize,
