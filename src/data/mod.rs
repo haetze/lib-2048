@@ -4,6 +4,9 @@ mod tests;
 
 // Holds one row of Numbers or None if the specific field in the vec is empty
 #[derive(Clone, Debug, PartialEq)]
+/// Struct that represents one line of the Field.
+/// The Vec is always of length `length`. Cells
+/// that are currently empty holf an `None`
 pub struct Row {
     row: Vec<Option<usize>>,
     length: usize,
@@ -11,6 +14,12 @@ pub struct Row {
 
 // Holds the whole field 
 #[derive(Clone, Debug, PartialEq)]
+/// Structs that represents the whole Field.
+/// Each individual Row is hold in its own Row struct
+/// which are hold in the `Vec`.
+/// `size` is a the demionsions of the Field.
+/// There should be `size` rows and each row should
+/// have a length of `size`. 
 pub struct Field {
     rows: Vec<Row>,
     size: usize,
@@ -30,6 +39,15 @@ pub struct Field {
 // - insert_random DONE
 // - print DONE
 impl Field {
+    /// Simple print message
+    /// # Example
+    /// ```
+    /// extern crate lib_2048;
+    /// use lib_2048::data::Field;
+    /// 
+    /// let field = Field::new(3);
+    /// field.print();
+    /// ```
     pub fn print(&self) {
         for r in &self.rows{
             r.print();
@@ -39,7 +57,14 @@ impl Field {
     pub fn rows(&self) -> &Vec<Row> {
         &self.rows
     }
-    
+    /// Builds new Field with the given `size`.
+    /// # Example
+    /// ```
+    /// extern crate lib_2048;
+    /// use lib_2048::data::Field;
+    /// // Field with size 3
+    /// let field = Field::new(3);
+    /// ```
     pub fn new(size: usize) -> Field {
         let mut field = Vec::with_capacity(size);
         for _ in 0 .. size {
