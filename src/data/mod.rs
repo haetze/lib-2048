@@ -12,7 +12,7 @@ pub struct Row {
 // Holds the whole field 
 #[derive(Clone, Debug, PartialEq)]
 pub struct Field {
-    rows: Vec<Row>,
+    pub rows: Vec<Row>,
     size: usize,
 }
 
