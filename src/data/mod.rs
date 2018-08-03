@@ -12,7 +12,7 @@ pub struct Row {
 // Holds the whole field 
 #[derive(Clone, Debug, PartialEq)]
 pub struct Field {
-    pub rows: Vec<Row>,
+    rows: Vec<Row>,
     size: usize,
 }
 
@@ -34,6 +34,10 @@ impl Field {
         for r in &self.rows{
             r.print();
         }
+    }
+
+    pub fn rows(&self) -> &Vec<Row> {
+        &self.rows
     }
     
     pub fn new(size: usize) -> Field {
@@ -194,6 +198,9 @@ impl Row {
         }
     }
 
+    pub fn row(&self) -> &Vec<Option<usize>> {
+        &self.row
+    }
     pub fn insertable(&self) -> bool {
         for i in &self.row {
             if let None = i {
