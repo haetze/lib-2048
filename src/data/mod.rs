@@ -4,7 +4,7 @@ mod tests;
 
 // Holds one row of Numbers or None if the specific field in the vec is empty
 #[derive(Clone, Debug, PartialEq)]
-struct Row {
+pub struct Row {
     row: Vec<Option<usize>>,
     length: usize,
 }
