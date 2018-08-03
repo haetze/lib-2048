@@ -85,7 +85,17 @@ impl Field {
         }
         return false;
     }
-    
+    /// Inserts 1 or 2 at a random position of the Field
+    /// # Example
+    /// ```
+    /// extern crate lib_2048;
+    /// use lib_2048::data::Field;
+    /// 
+    /// let mut field = Field::new(3);
+    /// field.print();
+    /// field.insert_random();
+    /// field.print();
+    /// ```
     pub fn insert_random(&mut self) -> bool {
         if self.insertable() {
             loop {
@@ -100,14 +110,14 @@ impl Field {
         }
         return false;
     }
-
+    /// Swipes the field in the given direction.
     pub fn swipe_left(&mut self) {
         for row in &mut self.rows {
             row.swipe_left();
         }
         
     }
-
+    /// See swipe_left
     pub fn swipe_right(&mut self) {
         for row in &mut self.rows {
             row.swipe_right();
@@ -133,6 +143,7 @@ impl Field {
         
     }
 
+    /// See swipe_left
     pub fn swipe_up(&mut self) {
         for i in 0..self.size {
             self.swipe_up_single(i);
@@ -158,6 +169,7 @@ impl Field {
         
     }
 
+    /// See swipe_left
     pub fn swipe_down(&mut self) {
         for i in 0..self.size {
             self.swipe_down_single(i);
